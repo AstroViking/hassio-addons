@@ -1,0 +1,16 @@
+{
+  "name": "FIND Server",
+  "version": "0.1.0",
+  "slug": "find",
+  "description": "FIND Server (https://github.com/schollz/find)",
+  "startup": "services",
+  "boot": "auto",
+  "hassio_api": true,
+  "ports": {
+	"8003/tcp": 8003
+  },
+  "options": {
+  },
+  "schema": {
+  }
+}
