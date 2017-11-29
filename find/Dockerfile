@@ -4,17 +4,30 @@ FROM $BUILD_FROM
 ENV LANG C.UTF-8
 
 # Install requirements for add-on
-RUN apk add --no-cache jq git go mosquitto-clients \
-  && mkdir -p /usr/local \
-  && cd /usr/local \
-  && git clone https://github.com/schollz/find.git find-server \
-  && cd find-server \
-  && go get ./... \
-  && go build \
-  && ln -s /usr/local/find-server/find /usr/local/bin/find-server
+RUN apk add --no-cache ca-certificates jq git musl-dev go tini supervisor mosquitto-clients
 
-# Copy data for add-on
-COPY run.sh /
-RUN chmod a+x /run.sh
+# Install python3 stuff for random forest support
+RUN apk add --no-cache python3 python3-dev && \
+    python3 -m ensurepip && \
+    rm -r /usr/lib/python*/ensurepip && \
+    pip3 install --upgrade pip setuptools && \
+    if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
+    if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
+    pip install --no-cache-dir numpy scipy scikit-learn && \
+    rm -r /root/.cache
 
-CMD [ "/run.sh" ]
+# Install FIND
+RUN mkdir /usr/local/work
+ENV GOPATH /usr/local/work
+RUN go get github.com/schollz/find
+WORKDIR "/usr/local/work/src/github.com/schollz/find"
+RUN go build -v
+RUN ln -s /usr/local/work/src/github.com/schollz/find/find /usr/local/bin/find-server
+
+# Copy supervisor config
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+#Set entry point for tini
+ENTRYPOINT ["/sbin/tini -s", "--"]
+
+CMD [ "/usr/bin/supervisord" ]
