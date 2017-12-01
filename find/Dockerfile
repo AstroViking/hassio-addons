@@ -7,13 +7,15 @@ ENV LANG C.UTF-8
 RUN apk add --no-cache ca-certificates jq git musl-dev go tini supervisor mosquitto-clients
 
 # Install python3 stuff for random forest support
-RUN apk add --no-cache python3 python3-dev && \
+RUN apk add --no-cache python3 python3-dev gcc g++ gfortran libstdc++ lapack-dev openblas-dev py3-numpy && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --upgrade pip setuptools && \
     if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
-    pip install --no-cache-dir numpy scipy scikit-learn && \
+    ln -s locale.h /usr/include/xlocale.h && \
+    apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing py3-scipy && \
+    pip install --no-cache-dir scikit-learn && \
     rm -r /root/.cache
 
 # Install FIND
