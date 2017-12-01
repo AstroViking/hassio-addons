@@ -1,6 +1,6 @@
 {
   "name": "FIND Server",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "slug": "find",
   "description": "FIND Server (https://github.com/schollz/find)",
   "startup": "services",
