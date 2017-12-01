@@ -18,7 +18,7 @@ RUN apk add --no-cache python3 python3-dev gcc g++ gfortran libstdc++ lapack-dev
     ln -s locale.h /usr/include/xlocale.h && \
     apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing py3-scipy && \
     apk --no-cache add py-numpy-dev && \
-    pip install --no-cache-dir numpy scipy scikit-learn && \
+    pip install -U --no-cache-dir numpy scipy scikit-learn && \
     rm -r /root/.cache
 
 # Install FIND
@@ -30,9 +30,9 @@ RUN go build -v
 RUN ln -s /usr/local/work/src/github.com/schollz/find/find /usr/local/bin/find-server
 
 # Copy supervisor config
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY supervisord.conf /etc/supervisord.conf
 
 #Set entry point for tini
 ENTRYPOINT ["/sbin/tini -s", "--"]
 
-CMD [ "/usr/bin/supervisord" ]
+CMD [ "/usr/bin/supervisord -c /etc/supervisord.conf" ]

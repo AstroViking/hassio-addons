@@ -12,5 +12,6 @@
   "options": {
   },
   "schema": {
-  }
+  },
+  "image": "astroviking4/find-{arch}"
 }
