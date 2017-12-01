@@ -9,7 +9,7 @@ ENV LANG C.UTF-8
 RUN apk add --no-cache ca-certificates jq git musl-dev go tini supervisor mosquitto-clients
 
 # Install python3 stuff for random forest support
-RUN apk add --no-cache python3 python3-dev gcc g++ gfortran libstdc++ lapack-dev openblas-dev py3-numpy && \
+RUN apk add --no-cache python3 python3-dev gcc g++ gfortran libstdc++ lapack-dev py3-numpy && \
     python3 -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip3 install --upgrade pip setuptools && \
