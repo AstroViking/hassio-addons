@@ -33,6 +33,6 @@ RUN ln -s /usr/local/work/src/github.com/schollz/find/find /usr/local/bin/find-s
 COPY supervisord.conf /etc/supervisord.conf
 
 #Set entry point for tini
-ENTRYPOINT ["/sbin/tini -s", "--"]
+ENTRYPOINT ["/sbin/tini", "-s", "--"]
 
 CMD [ "/usr/bin/supervisord -c /etc/supervisord.conf" ]
