@@ -17,6 +17,7 @@ RUN apk add --no-cache python3 python3-dev gcc g++ gfortran libstdc++ lapack-dev
     if [[ ! -e /usr/bin/python ]]; then ln -sf /usr/bin/python3 /usr/bin/python; fi && \
     ln -s locale.h /usr/include/xlocale.h && \
     apk --no-cache add --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing py3-scipy && \
+    apk --no-cache add py-numpy-dev && \
     pip install --no-cache-dir numpy scipy scikit-learn && \
     rm -r /root/.cache
 
