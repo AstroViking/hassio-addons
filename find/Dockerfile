@@ -1,7 +1,7 @@
-LABEL io.hass.version="0.58" io.hass.type="addon" io.hass.arch="armhf|aarch64|i386|amd64"
-
 ARG BUILD_FROM
 FROM $BUILD_FROM
+
+LABEL io.hass.version="0.58" io.hass.type="addon" io.hass.arch="armhf|aarch64|i386|amd64"
 
 ENV LANG C.UTF-8
 
